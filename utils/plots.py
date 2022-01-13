@@ -53,6 +53,7 @@ def check_font(font='Arial.ttf', size=10):
     # Return a PIL TrueType Font, downloading to CONFIG_DIR if necessary
     font = Path(font)
     font = font if font.exists() else (CONFIG_DIR / font.name)
+    # font = Path("C:\Windows\Fonts\arial.ttf")
     try:
         return ImageFont.truetype(str(font) if font.exists() else font.name, size)
     except Exception as e:  # download if missing
