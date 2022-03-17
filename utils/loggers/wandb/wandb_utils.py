@@ -403,7 +403,7 @@ class WandbLogger():
         # TODO: Explore multiprocessing to slpit this loop parallely| This is essential for speeding up the the logging
         artifact = wandb.Artifact(name=name, type="dataset")
         img_files = tqdm([dataset.path]) if isinstance(dataset.path, str) and Path(dataset.path).is_dir() else None
-        img_files = tqdm(dataset.img_files) if not img_files else img_files
+        img_files = tqdm(dataset.im_files) if not img_files else img_files
         for img_file in img_files:
             if Path(img_file).is_dir():
                 artifact.add_dir(img_file, name='data/images')
@@ -487,7 +487,7 @@ class WandbLogger():
             if self.current_epoch % self.bbox_interval == 0:
                 box_data = [{"position": {"minX": xyxy[0], "minY": xyxy[1], "maxX": xyxy[2], "maxY": xyxy[3]},
                              "class_id": int(cls),
-                             "box_caption": f"{names[cls]} {conf:.3f}",
+                             "box_caption": f"{names[int(cls)]} {conf:.3f}",
                              "scores": {"class_score": conf},
                              "domain": "pixel"} for *xyxy, conf, cls in pred.tolist()]
                 boxes = {"predictions": {"box_data": box_data, "class_labels": names}}  # inference-space
